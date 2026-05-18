@@ -1,0 +1,207 @@
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #000;
+    
+    color: rgb(0, 0, 0);
+}
+
+/* NAVBAR */
+.navbar {/*thanh navbar(cái trên cùng)*/
+    background: rgb(0, 0, 0);
+    border-bottom: 1px solid #000000;
+}
+
+.navbar-brand {/*tên thương hiệu trên navbar*/
+    color: #ffffff;
+}
+.navbar-brand:hover{
+    color:#ffe47a
+}
+
+.nav-link {
+    color: #ffffffd3;
+}
+
+.nav-link:hover {
+    color: #fff200;
+}
+
+/* MAIN */
+/* HERO SECTION BACKGROUND */
+.main {
+    min-height: 100vh;                
+    background-image: url("../images/anh-bg.jpg");
+    background-size: cover;          
+    background-position: center;       
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5); /* độ tối */
+}
+
+.main-content {
+    position: relative;
+    color: #fff;
+}
+
+
+
+
+
+
+.main-content {
+    text-align: center;
+}
+
+/* TITLE */
+.main h1 {
+    position: relative;
+    display: inline-block;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+
+
+@keyframes shine {
+    100% {
+        left: 100%;
+    }
+}
+.main h5 {
+    color: #000000;
+}
+.main h3 {
+    color: #a4a4a4;
+}
+
+
+/* BUTTON */
+.btn-main {/*mấy cái nút */
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+
+    border: 1px solid #ffe96f;
+    color: #000000;
+    text-decoration: none;
+
+    transition: 0.3s;
+}
+
+.btn-main:hover {/*chuyển màu khi di chuột đến mấy cái nút*/
+    background: #ffe47a;
+    color: black;
+}
+.featured {/*nền khu sản phẩm nổi bật*/
+    background: #000000;
+}
+
+.bike-card {/*màu*/
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.bike-card:hover {/* chuyển động cụm bike-card */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+/* HEADER */
+.products-header {
+    padding: 100px 20px 40px;
+    background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+}
+
+.products-header h1 {
+    font-weight: 800;
+}
+
+/* FILTER */
+.filter-bar {
+    padding: 20px 0;
+}
+
+.filter-btn {
+    border: 1px solid #ddd;
+    background: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #f1c40f;
+    border-color: #f1c40f;
+    color: #111;
+}
+
+/* PRODUCT GRID */
+.products {
+    padding: 40px 0 80px;
+}
+
+/* CARD */
+.bike-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.bike-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.bike-card img {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.price {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* BUTTON */
+.btn-main {
+    background: #f1c40f;
+    color: #111;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-main:hover {
+    background: #d4ac0d;
+    transform: translateY(-2px);
+}
+
+/* FOOTER */
+footer {
+    background: #000;
+}
+/* nút trang chủ */
+.nav-link.active {
+    color: #f1c40f !important;
+}
+/* ảnh */
+.product-img {
+    width: 150px;
+    height: auto; /* giữ đúng tỉ lệ */
+}
