@@ -13,68 +13,183 @@
 
 
 
-<div class="admin-content">
+<div class="container-fluid px-4 py-4">
 
-    <h1>Quản lý người dùng</h1>
+  <!-- TITLE -->
+  <div class="mb-4">
+    <h2 class="fw-bold">Quản lý người dùng</h2>
 
-    <div class="admin-box">
-        <p class="text-muted">
-            Danh sách người dùng đã đăng ký trong hệ thống Light Cavalry.
-        </p>
+    <p class="text-muted mb-0">
+      Danh sách người dùng đã đăng ký trong hệ thống Light Cavalry.
+    </p>
+  </div>
+
+  <!-- CARD -->
+  <div class="card shadow-sm border-0 rounded-3">
+
+    <!-- HEADER -->
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+
+      <h5 class="mb-0">Danh sách người dùng</h5>
+
+      
+
     </div>
 
-    <div class="admin-box">
-        <a href="add_user.php" class="btn">Thêm người dùng mới</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Vai trò</th>
-                    <th>Ngày tạo</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>a.nguyen@gmail.com</td>
-                    <td>Khách hàng</td>
-                    <td>05/04/2026</td>
-                    <td>
-                        <a href="edit_user.php?id=1">Sửa</a> |
-                            <a href="#">Xóa</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Trần Thị B</td>
-                    <td>b.tran@gmail.com</td>
-                    <td>Khách hàng</td>
-                    <td>06/04/2026</td>
-                    <td>
-                        <a href="edit_user.php?id=2">Sửa</a> |
-                            <a href="#">Xóa</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Admin</td>
-                    <td>admin@lightcavalry.com</td>
-                    <td>Quản trị</td>
-                    <td>01/04/2026</td>
-                    <td>
-                        <a href="edit_user.php?id=3">Sửa</a> |
-                            <a href="#">Xóa</a>
-                    </td>
-                </tr>
-            </tbody>
+    <!-- BODY -->
+    <div class="card-body p-0">
+
+      <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0 text-center">
+
+          <thead class="table-light">
+            <tr>
+              <th width="80">ID</th>
+              <th width="20%">Họ tên</th>
+              <th width="25%">Email</th>
+              <th width="15%">Vai trò</th>
+              <th width="15%">Ngày tạo</th>
+              <th width="25%">Thao tác</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <!-- User 1 -->
+            <tr>
+              <td>1</td>
+
+              <td class="fw-semibold">
+                Nguyễn Văn A
+              </td>
+
+              <td>
+                a.nguyen@gmail.com
+              </td>
+
+              <td>
+                <span class="badge bg-info px-3 py-2">
+                  Khách hàng
+                </span>
+              </td>
+
+              <td>
+                05/04/2026
+              </td>
+
+              <td>
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+
+                  <a class="btn btn-primary btn-sm px-3" href="#">
+                    View
+                  </a>
+
+                  <a class="btn btn-info btn-sm text-white px-3"
+                     href="edit_user.php?id=1">
+                    Edit
+                  </a>
+
+                  <a class="btn btn-danger btn-sm px-3" href="#">
+                    Delete
+                  </a>
+
+                </div>
+              </td>
+            </tr>
+
+            <!-- User 2 -->
+            <tr>
+              <td>2</td>
+
+              <td class="fw-semibold">
+                Trần Thị B
+              </td>
+
+              <td>
+                b.tran@gmail.com
+              </td>
+
+              <td>
+                <span class="badge bg-info px-3 py-2">
+                  Khách hàng
+                </span>
+              </td>
+
+              <td>
+                06/04/2026
+              </td>
+
+              <td>
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+
+                  <a class="btn btn-primary btn-sm px-3" href="#">
+                    View
+                  </a>
+
+                  <a class="btn btn-info btn-sm text-white px-3"
+                     href="edit_user.php?id=2">
+                    Edit
+                  </a>
+<a class="btn btn-danger btn-sm px-3" href="#">
+                    Delete
+                  </a>
+
+                </div>
+              </td>
+            </tr>
+
+            <!-- Admin -->
+            <tr>
+              <td>3</td>
+
+              <td class="fw-semibold">
+                Admin
+              </td>
+
+              <td>
+                admin@lightcavalry.com
+              </td>
+
+              <td>
+                <span class="badge bg-danger px-3 py-2">
+                  Quản trị
+                </span>
+              </td>
+
+              <td>
+                01/04/2026
+              </td>
+
+              <td>
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+
+                  <a class="btn btn-primary btn-sm px-3" href="#">
+                    View
+                  </a>
+
+                  <a class="btn btn-info btn-sm text-white px-3"
+                     href="edit_user.php?id=3">
+                    Edit
+                  </a>
+
+                  <a class="btn btn-danger btn-sm px-3" href="#">
+                    Delete
+                  </a>
+
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+
         </table>
-    </div>
 
+      </div>
+    </div>
+  </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
