@@ -43,7 +43,7 @@
             <div style="margin-top: 16px;">
                 <button type="submit">Cập nhật</button>
                 &nbsp;&nbsp;
-                <a href="category.php">Quay lại danh sách</a>
+                <a href="index.php?page_layout=category">Quay lại danh sách</a>
             </div>
 
         </form>
