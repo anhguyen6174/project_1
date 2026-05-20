@@ -1,13 +1,48 @@
 <?php
 session_start();
+include_once "../config/database.php";
 if(isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_unset();
     session_destroy();
     header('Location: login.php');
     exit;
 }
+
 if(!isset($_SESSION['user_login'])) {
     header('Location: login.php');
+    exit;
+}
+
+if(isset($_GET['delete_id']) && isset($_GET['page_layout']) && $_GET['page_layout'] === 'user') {
+    $deleteId = intval($_GET['delete_id']);
+    if($deleteId > 0) {
+        $deleteSql = "DELETE FROM users WHERE users_id = $deleteId";
+        mysqli_query($conn, $deleteSql);
+        $_SESSION['flash_message'] = 'Đã xóa người dùng.';
+    }
+    header('Location: index.php?page_layout=user');
+    exit;
+}
+
+if(isset($_GET['delete_product_id']) && isset($_GET['page_layout']) && $_GET['page_layout'] === 'product') {
+    $deleteId = intval($_GET['delete_product_id']);
+    if($deleteId > 0) {
+        $deleteSql = "DELETE FROM products WHERE id = $deleteId";
+        mysqli_query($conn, $deleteSql);
+        $_SESSION['flash_message'] = 'Đã xóa sản phẩm.';
+    }
+    header('Location: index.php?page_layout=product');
+    exit;
+}
+
+if(isset($_GET['delete_category_id']) && isset($_GET['page_layout']) && $_GET['page_layout'] === 'category') {
+    $deleteId = intval($_GET['delete_category_id']);
+    if($deleteId > 0) {
+        $deleteSql = "DELETE FROM categories WHERE id = $deleteId";
+        mysqli_query($conn, $deleteSql);
+        $_SESSION['flash_message'] = 'Đã xóa danh mục.';
+    }
+    header('Location: index.php?page_layout=category');
     exit;
 }
 ?>
@@ -164,6 +199,7 @@ if(!isset($_SESSION['user_login'])) {
         case 'edit_user':
             include("modules/users/edit.php");  
             break;
+        case 'order':
         case 'orders':
             include("order.php");
             break;
