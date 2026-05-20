@@ -1,3 +1,20 @@
+<?php
+require_once __DIR__ . '/../../../config/database.php';
+$categories = [];
+$message = '';
+if (isset($_SESSION['flash_message'])) {
+    $message = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+}
+
+$sql = "SELECT * FROM categories";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $categories[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -20,7 +37,7 @@
 
         <div class="admin-box">
             <p>Quản lý các danh mục sản phẩm trong hệ thống Light Cavalry.</p>
-                <a href="modules/categories/add.php" class="btn btn-primary">Thêm danh mục mới</a>
+                <a href="index.php?page_layout=add_category" class="btn btn-primary">Thêm danh mục mới</a>
         </div>
      <!-- CATEGORY TABLE -->
 <div class="card shadow-sm border-0 rounded-3">
@@ -49,81 +66,58 @@
     </thead>
 
     <tbody>
-
-      <!-- Category 1 -->
+      <?php if ($message): ?>
       <tr>
-        <td>1</td>
-
-        <td class="fw-semibold">
-          Xe đạp địa hình
-        </td>
-
-        <td>
-          Danh mục xe đạp sử dụng động cơ điện
-        </td>
-
-        <td>
-          <span class="badge bg-success px-3 py-2">
-            Hiển thị
-          </span>
-        </td>
-
-        <td>
-          <div class="d-flex justify-content-center gap-2">
-
-            <a class="btn btn-primary btn-sm" href="#">
-              View
-            </a>
-
-            <a class="btn btn-info btn-sm text-white" href="#">
-              Edit
-            </a>
-
-            <a class="btn btn-danger btn-sm" href="#">
-              Delete
-            </a>
-
+        <td colspan="5">
+          <div class="alert alert-success m-3">
+            <?php echo htmlspecialchars($message); ?>
           </div>
         </td>
       </tr>
-
-      <!-- Category 2 -->
+      <?php endif; ?>
+      <?php if (empty($categories)): ?>
       <tr>
-        <td>2</td>
-
-        <td class="fw-semibold">
-          Xe đạp thể thao
-        </td>
-
-        <td>
-          Danh mục xe đạp dành cho thể thao và địa hình
-        </td>
-
-        <td>
-          <span class="badge bg-warning text-dark px-3 py-2">
-            Ẩn
-          </span>
-        </td>
-
-        <td>
-          <div class="d-flex justify-content-center gap-2">
-
-            <a class="btn btn-primary btn-sm" href="#">
-              View
-            </a>
-
-            <a class="btn btn-info btn-sm text-white" href="#">
-              Edit
-            </a>
-
-            <a class="btn btn-danger btn-sm" href="#">
-              Delete
-            </a>
-
-          </div>
-        </td>
+        <td colspan="5">Không có danh mục nào.</td>
       </tr>
+      <?php else: ?>
+        <?php foreach ($categories as $category): ?>
+        <tr>
+          <td><?php echo htmlspecialchars($category['id']); ?></td>
 
+          <td class="fw-semibold">
+            <?php echo htmlspecialchars($category['name']); ?>
+          </td>
+
+          <td>
+            <?php echo htmlspecialchars($category['description']); ?>
+          </td>
+
+          <td>
+            <span class="badge bg-success px-3 py-2">
+              Hiển thị
+            </span>
+          </td>
+
+          <td>
+            <div class="d-flex justify-content-center gap-2">
+
+              <a class="btn btn-primary btn-sm" href="index.php?page_layout=edit_category&id=<?php echo $category['id']; ?>">
+                View
+              </a>
+
+              <a class="btn btn-info btn-sm text-white" href="index.php?page_layout=edit_category&id=<?php echo $category['id']; ?>">
+                Edit
+              </a>
+
+              <a class="btn btn-danger btn-sm" href="index.php?page_layout=category&delete_category_id=<?php echo $category['id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa danh mục này?');">
+                Delete
+              </a>
+
+            </div>
+          </td>
+        </tr>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </tbody>
 
   </table>
