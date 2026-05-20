@@ -1,40 +1,87 @@
 <?php
-// Giá sản phẩm
-$price1 = 12000000;
+session_start();
 
-// Mặc định số lượng
-$q1 = 1;
+// Giá sản phẩm tạm thời
+$products = [
+    3 => [
+        'id' => 3,
+        'name' => 'Scott Aspect 960',
+        'price' => 12000000,
+        'image' => 'images/anh-1.jpg'
+    ]
+];
 
-// Nếu bấm cập nhật
+$cart = $_SESSION['cart'] ?? [];
+$cartItem = !empty($cart) ? reset($cart) : null;
+$deleted1 = false;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $q1 = $_POST["q1"];
+    // Thêm sản phẩm vào giỏ hàng từ product-detail.php
+    if (isset($_POST["product_id"])) {
+        $productId = intval($_POST["product_id"]);
+        $quantity = isset($_POST["quantity"]) ? intval($_POST["quantity"]) : 1;
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
 
-    if ($q1 < 1) $q1 = 1;
+        if (isset($products[$productId])) {
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
+            }
+
+            if (isset($_SESSION['cart'][$productId])) {
+                $_SESSION['cart'][$productId]['quantity'] += $quantity;
+            } else {
+                $_SESSION['cart'][$productId] = [
+                    'id' => $products[$productId]['id'],
+                    'name' => $products[$productId]['name'],
+                    'price' => $products[$productId]['price'],
+                    'image' => $products[$productId]['image'],
+                    'quantity' => $quantity
+                ];
+            }
+
+            $_SESSION['message'] = '<div class="alert alert-success">Đã thêm sản phẩm vào giỏ hàng.</div>';
+        }
+
+        header("Location: product-detail.php");
+        exit;
+    }
+
+    // XÓA sản phẩm
+    if (isset($_POST["delete1"]) && $cartItem) {
+        unset($_SESSION['cart'][$cartItem['id']]);
+        $deleted1 = true;
+        $cartItem = null;
+    }
+
+    // Cập nhật số lượng (nếu không bị xoá)
+    if (!$deleted1 && isset($_POST["q1"]) && $cartItem) {
+        $q1 = intval($_POST["q1"]);
+        if ($q1 < 1) {
+            $q1 = 1;
+        }
+
+        $_SESSION['cart'][$cartItem['id']]['quantity'] = $q1;
+        $cartItem['quantity'] = $q1;
+    }
 }
 
-// Tính tiền
-$total1 = $price1 * $q1;
-$sum = $total1;
+if ($cartItem) {
+    $price1 = $cartItem['price'];
+    $q1 = $cartItem['quantity'];
+    $total1 = $price1 * $q1;
+    $sum = $total1;
+} else {
+    $price1 = 0;
+    $q1 = 1;
+    $total1 = 0;
+    $sum = 0;
+}
 
 // Format tiền
 function money($n) {
     return number_format($n, 0, ",", ".") . "đ";
-}
-
-$deleted1 = false;
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // XÓA sản phẩm
-    if (isset($_POST["delete1"])) {
-        $deleted1 = true;
-    }
-
-    // Cập nhật số lượng (nếu không bị xoá)
-    if (!$deleted1) {
-        $q1 = $_POST["q1"];
-        if ($q1 < 1) $q1 = 1;
-    }
 }
 
 ?>
@@ -54,11 +101,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="index.php">Light Cavalry</a>
-    </div>
-</nav>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="index.php">Light Cavalry</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold" href="index.php">
+                            Trang chủ
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="product.php">Sản phẩm</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="promo.php">Khuyến mãi</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.php">Liên hệ</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php">Giỏ hàng</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
 
 <!-- HEADER -->
 <section class="products-header text-center">
@@ -86,12 +168,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </thead>
 
     <tbody>
+        <?php if ($cartItem): ?>
         <tr>
             <td>
                 <div class="d-flex align-items-center gap-3">
-                    <img src="images/anh-1.jpg" style="width:120px;">
+                    <img src="<?php echo htmlspecialchars($cartItem['image']); ?>" style="width:120px;">
                     <div>
-                        <h5>LC-01</h5>
+                        <h5><?php echo htmlspecialchars($cartItem['name']); ?></h5>
                     </div>
                 </div>
             </td>
@@ -113,8 +196,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <td><?php echo money($total1); ?></td>
 
             <!-- ACTION -->
-            <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">
+            <td class="d-flex flex-column gap-2">
+                <button type="submit" name="delete1" class="btn btn-sm btn-outline-danger">
                     Xóa
                 </button>
 
@@ -123,6 +206,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </a>
             </td>
         </tr>
+        <?php else: ?>
+        <tr>
+            <td colspan="5" class="text-center">Giỏ hàng hiện chưa có sản phẩm.</td>
+        </tr>
+        <?php endif; ?>
     </tbody>
 </table>
 
