@@ -1,3 +1,20 @@
+<?php
+require_once __DIR__ . '/../../../config/database.php';
+$users = [];
+$message = '';
+if(isset($_SESSION['flash_message'])) {
+    $message = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+}
+
+$sql = "SELECT * FROM users";
+$result = mysqli_query($conn, $sql);
+if($result) {
+    while($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -55,132 +72,63 @@
           </thead>
 
           <tbody>
-
-            <!-- User 1 -->
+            <?php if($message): ?>
             <tr>
-              <td>1</td>
-
-              <td class="fw-semibold">
-                Nguyễn Văn A
-              </td>
-
-              <td>
-                a.nguyen@gmail.com
-              </td>
-
-              <td>
-                <span class="badge bg-info px-3 py-2">
-                  Khách hàng
-                </span>
-              </td>
-
-              <td>
-                05/04/2026
-              </td>
-
-              <td>
-                <div class="d-flex justify-content-center flex-wrap gap-2">
-
-                  <a class="btn btn-primary btn-sm px-3" href="#">
-                    View
-                  </a>
-
-                  <a class="btn btn-info btn-sm text-white px-3"
-                     href="edit_user.php?id=1">
-                    Edit
-                  </a>
-
-                  <a class="btn btn-danger btn-sm px-3" href="#">
-                    Delete
-                  </a>
-
+              <td colspan="6">
+                <div class="alert alert-success m-3">
+                  <?php echo htmlspecialchars($message); ?>
                 </div>
               </td>
             </tr>
-
-            <!-- User 2 -->
+            <?php endif; ?>
+            <?php if(empty($users)): ?>
             <tr>
-              <td>2</td>
-
-              <td class="fw-semibold">
-                Trần Thị B
-              </td>
-
-              <td>
-                b.tran@gmail.com
-              </td>
-
-              <td>
-                <span class="badge bg-info px-3 py-2">
-                  Khách hàng
-                </span>
-              </td>
-
-              <td>
-                06/04/2026
-              </td>
-
-              <td>
-                <div class="d-flex justify-content-center flex-wrap gap-2">
-
-                  <a class="btn btn-primary btn-sm px-3" href="#">
-                    View
-                  </a>
-
-                  <a class="btn btn-info btn-sm text-white px-3"
-                     href="edit_user.php?id=2">
-                    Edit
-                  </a>
-<a class="btn btn-danger btn-sm px-3" href="#">
-                    Delete
-                  </a>
-
-                </div>
-              </td>
+              <td colspan="6">Không có người dùng nào.</td>
             </tr>
+            <?php else: ?>
+              <?php foreach($users as $user): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($user['users_id']); ?></td>
 
-            <!-- Admin -->
-            <tr>
-              <td>3</td>
+                <td class="fw-semibold">
+                  <?php echo htmlspecialchars($user['user_full']); ?>
+                </td>
 
-              <td class="fw-semibold">
-                Admin
-              </td>
+                <td>
+                  <?php echo htmlspecialchars($user['user_mail']); ?>
+                </td>
 
-              <td>
-                admin@lightcavalry.com
-              </td>
+                <td>
+                  <span class="badge bg-<?php echo $user['user_level'] == 1 ? 'danger' : 'info'; ?> px-3 py-2">
+                    <?php echo $user['user_level'] == 1 ? 'Quản trị' : 'Khách hàng'; ?>
+                  </span>
+                </td>
 
-              <td>
-                <span class="badge bg-danger px-3 py-2">
-                  Quản trị
-                </span>
-              </td>
+                <td>
+                  --
+                </td>
 
-              <td>
-                01/04/2026
-              </td>
+                <td>
+                  <div class="d-flex justify-content-center flex-wrap gap-2">
 
-              <td>
-                <div class="d-flex justify-content-center flex-wrap gap-2">
+                    <a class="btn btn-primary btn-sm px-3" href="index.php?page_layout=edit_user&id=<?php echo $user['users_id']; ?>">
+                      View
+                    </a>
 
-                  <a class="btn btn-primary btn-sm px-3" href="#">
-                    View
-                  </a>
+                    <a class="btn btn-info btn-sm text-white px-3"
+                       href="index.php?page_layout=edit_user&id=<?php echo $user['users_id']; ?>">
+                      Edit
+                    </a>
 
-                  <a class="btn btn-info btn-sm text-white px-3"
-                     href="edit_user.php?id=3">
-                    Edit
-                  </a>
+                    <a class="btn btn-danger btn-sm px-3" href="index.php?page_layout=user&delete_id=<?php echo $user['users_id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa người dùng này?');">
+                      Delete
+                    </a>
 
-                  <a class="btn btn-danger btn-sm px-3" href="#">
-                    Delete
-                  </a>
-
-                </div>
-              </td>
-            </tr>
-
+                  </div>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
 
         </table>
