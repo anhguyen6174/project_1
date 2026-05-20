@@ -1,3 +1,21 @@
+
+<?php
+session_start();
+
+
+if (isset($_GET['success'])) {
+    echo "<script>alert('Đã thêm vào giỏ hàng');</script>";
+}
+
+
+$product = [
+    'id' => 3,
+    'name' => 'Scott Aspect 960',
+    'price' => 12000000,
+    'image' => 'images/xe-dap-xds-ad500-xam-dam-den.jpg'
+];
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -11,6 +29,18 @@
 </head>
 
 <body>
+
+<div class="container mt-3">
+<?php
+
+
+if (isset($_SESSION['message'])) {
+    echo $_SESSION['message'];
+    unset($_SESSION['message']);
+}
+?>
+
+</div>
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg">
@@ -61,8 +91,8 @@
         <div class="col-md-6">
             <img 
                 src="images/xe-dap-xds-ad500-xam-dam-den.jpg" 
-                class="img-fluid rounded shadow"
-                alt="Scott Aspect 960">
+                class="img-fluid rounded shadow">
+                <input type="hidden" name="product_id" value="3">
         </div>
 
         <!-- INFO -->
@@ -105,22 +135,22 @@
             <div class="d-grid gap-3">
 
  
-    <div class="d-flex align-items-center gap-2">
-        <label for="quantity" class="mb-0 text-white">Số lượng:</label>
+<form action="cart.php" method="POST">
+                <div class="d-flex align-items-center gap-2">
+                    <label for="quantity" class="mb-0 text-white">Số lượng:</label>
+                    <input type="number"
+                        id="quantity"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        class="form-control w-25">
+                </div>
 
-        <input type="number"
-            id="quantity"
-            name="quantity"
-            value="1"
-            min="1"
-            class="form-control w-25">
-    </div>
-
-
-    <button class="btn btn-dark btn-lg"
-            onclick="addToCart()">
-        Thêm vào giỏ hàng
-    </button>
+                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                <button type="submit" class="btn btn-dark">
+                    Thêm vào giỏ hàng
+                </button>
+            </form>
 
     <a href="product.php" class="btn btn-outline-secondary">
         Quay lại cửa hàng
