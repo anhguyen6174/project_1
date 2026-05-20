@@ -1,6 +1,3 @@
-create DATABASE light_cavalry;
-USE light_cavalry;
-
 
 
 CREATE TABLE categories (
@@ -57,6 +54,20 @@ CREATE TABLE order_detail (
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
+CREATE TABLE `users` (
+  `users_id` int(11) NOT NULL,
+  `user_full` varchar(255) NOT NULL,
+  `user_mail` varchar(255) NOT NULL,
+  `user_pass` varchar(255) NOT NULL,
+  `user_level` int(1) NOT NULL
+) ;
+INSERT INTO `users` (`users_id`, `user_full`, `user_mail`, `user_pass`, `user_level`) VALUES
+(1, 'Administrator', 'admin@gmail.com', '123456', 1),
+(2, 'Nguyễn Van A', 'nguyenvana@gmail.com', '123456', 2),
+(3, 'Nguyễn Van B', 'nguyenvanb@gmail.com', '123456', 2),
+(4, 'Nguyễn Van C', 'nguyenvanc@gmail.com', '123456', 2),
+(5, 'Nguyễn Van D', 'nguyenvand@gmail.com', '123456', 2);
+
 
 INSERT INTO categories (name, slug, description) VALUES
 ('Road Bikes', 'road-bike', 'Xe đạp đường trường tốc độ cao'),
