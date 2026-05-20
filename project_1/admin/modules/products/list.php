@@ -1,3 +1,22 @@
+<?php
+require_once __DIR__ . '/../../../config/database.php';
+$products = [];
+$message = '';
+if (isset($_SESSION['flash_message'])) {
+    $message = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+}
+
+$sql = "SELECT p.id, p.name, p.stock, p.price, c.name AS category_name
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.id";
+$result = mysqli_query($conn, $sql);
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $products[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -37,7 +56,7 @@
       <p class="text-muted mb-0">Danh sách sản phẩm Light Cavalry</p>
     </div>
 
-    <a href="add_product.php" class="btn btn-primary px-4">
+    <a href="index.php?page_layout=add_product" class="btn btn-primary px-4">
       + Thêm sản phẩm
     </a>
   </div>
@@ -64,39 +83,40 @@
           </thead>
 
           <tbody>
-
+            <?php if ($message): ?>
             <tr>
-              <td>1</td>
-              <td class="fw-semibold text-start">Light Cavalry X1</td>
-              <td>Xe đạp điện</td>
-              <td>
-                <span class="badge bg-success px-3 py-2">Còn hàng</span>
-              </td>
-              <td>
-                <div class="d-flex justify-content-center gap-2">
-                  <a class="btn btn-primary btn-sm">View</a>
-                  <a class="btn btn-info btn-sm text-white">Edit</a>
-                  <a class="btn btn-danger btn-sm">Delete</a>
+              <td colspan="5">
+                <div class="alert alert-success m-3">
+                  <?php echo htmlspecialchars($message); ?>
                 </div>
               </td>
             </tr>
-
+            <?php endif; ?>
+            <?php if (empty($products)): ?>
             <tr>
-              <td>2</td>
-              <td class="fw-semibold text-start">Light Cavalry S2</td>
-              <td>Xe đạp thể thao</td>
-              <td>
-                <span class="badge bg-warning text-dark px-3 py-2">Sắp hết</span>
-              </td>
-              <td>
-                <div class="d-flex justify-content-center gap-2">
-                  <a class="btn btn-primary btn-sm">View</a>
-                  <a class="btn btn-info btn-sm text-white">Edit</a>
-                  <a class="btn btn-danger btn-sm">Delete</a>
-                </div>
-              </td>
+              <td colspan="5">Không có sản phẩm nào.</td>
             </tr>
-
+            <?php else: ?>
+              <?php foreach ($products as $product): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($product['id']); ?></td>
+                <td class="fw-semibold text-start"><?php echo htmlspecialchars($product['name']); ?></td>
+                <td><?php echo htmlspecialchars($product['category_name'] ?: 'Chưa phân loại'); ?></td>
+                <td>
+                  <span class="badge <?php echo $product['stock'] > 0 ? 'bg-success' : 'bg-danger'; ?> px-3 py-2">
+                    <?php echo $product['stock'] > 0 ? 'Còn hàng' : 'Hết hàng'; ?>
+                  </span>
+                </td>
+                <td>
+                  <div class="d-flex justify-content-center gap-2">
+                    <a class="btn btn-primary btn-sm" href="index.php?page_layout=edit_product&id=<?php echo $product['id']; ?>">View</a>
+                    <a class="btn btn-info btn-sm text-white" href="index.php?page_layout=edit_product&id=<?php echo $product['id']; ?>">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="index.php?page_layout=product&delete_product_id=<?php echo $product['id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">Delete</a>
+                  </div>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
