@@ -154,3 +154,19 @@ button:hover {
 .text-muted {
     color: #666;
 }
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: #000;
+    color: #fff;
+}
+
+.sidebar {
+    min-height: 100vh;
+}
+
+.content {
+    width: 100%;
+}
