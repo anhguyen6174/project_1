@@ -154,6 +154,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p>Email: lightcavalry@gmail.com</p>
                 <p>SĐT: 0972 637 740</p>
                 <p>Địa chỉ: TP. Hà Nội</p>
+                <h5> Qúy khách vui lòng đặt cọc trước để kiểm tra sản phẩm</h5>
+                <p> Phí vận chuyển sẽ được tính cùng tiền đặt cọc</p>
+                <p> Sau khi kiểm tra và thanh toán sẽ hoàn trả lại tiền đặt cọc</p>
+                <p>  Vui lòng đặt cọc 30%</p>
             </div>
 
             <!-- FORM -->
