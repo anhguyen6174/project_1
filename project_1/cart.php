@@ -79,6 +79,9 @@ if ($cartItem) {
     $sum = 0;
 }
 
+// Tính cọc 30%
+$deposit = $sum * 0.30;
+
 // Format tiền
 function money($n) {
     return number_format($n, 0, ",", ".") . "đ";
@@ -218,7 +221,11 @@ function money($n) {
 <div class="row mt-5">
     <div class="col-md-8 text-end">
 
-        <h4 class="text-white">
+        <h5 class="text-white">
+           Đặt cọc (30%): <strong><?php echo money($deposit); ?></strong>
+        </h5>
+
+        <h4 class="text-white mt-2">
             Tổng tiền: <strong><?php echo money($sum); ?></strong>
         </h4>
 
